@@ -1,0 +1,60 @@
+{% extends 'partials/base.html' %}
+{% block content%}
+<form method="POST">
+    {% csrf_token%}
+    <select name="location"style="background-color: #d5f4e6;">
+        <option selected disabled> Search By Location</option>
+        {%for result in location_list%}
+    <option>{{result}}</option>>
+    {%endfor%}
+    </select>
+    <input style="background-color: #d5f4e6;" type="text" name="name" id="tags" placeholder="Search by Restaurants">
+    <script>
+
+  $( function() {
+    var availableTags = [
+        {% for result in name_list %}
+            "{{result}}",
+        {% endfor %}
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+    <input style="background-color: #d5f4e6;"type="text" name="items" id="tag" placeholder="Search by Dish Name">
+    <script>
+  $( function() {
+    var availableTags = [
+        {% for result in items_list %}
+            "{{result}}",
+        {% endfor %}
+    ];
+    $( "#tag" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+    <button style="background-color:#A9A9A9"  type="submit">search</button>
+  <hr>
+<table class="table table-success table-striped">
+  <tr >
+      <th >Restaurants</th>
+      <th>Items</th>
+  </tr>
+    {%for result in dict1%}
+    <tr>
+      <td>Restaurant : {{result.name}}<br>
+          {{result.cuisines}} <br>
+          Address    : {{result.address}} <br>
+          Rating     : {{result.aggregate_rating}} <br>
+          rating_text : {{result.rating_text}}<br>
+
+      </td>
+      <td>{{result.dish}} {{result.mrp}}<br>
+      <a href="/">click here for menu</a></td>
+    </tr>
+    {%endfor%}
+</table>
+</form>
+{% endblock %}
